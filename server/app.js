@@ -4,8 +4,10 @@ dotenv.config()
 const userRouter = require('../server/src/routes/User.Route')
 const swaggerUI = require('swagger-ui-express');
 const swaggerDocs = require('swagger-jsdoc');
+const path = require('path');
 const app = express();
 const loggermiddleware = require('./src/middlewares/logger.middleware');
+
 
 
 app.get('/', (req, res) => {
@@ -24,17 +26,19 @@ const options = {
      },
      servers: [
        {
-         url: "https://localhost:5000",
+         url: "http://localhost:5000",
        },
      ],
    },
-   apis: ["../server/docs/*.js"] 
+   apis: [path.resolve(__dirname, '../server/docs/*.js')]
  };
  
 const specs = swaggerDocs(options);
 app.use(loggermiddleware);
 app.use('/api/users', userRouter);
 app.use('/docs',swaggerUI.serve, swaggerUI.setup(specs))
+
+
 
 
 
