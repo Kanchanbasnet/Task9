@@ -38,7 +38,8 @@ exports.createUser = async (req, res,next) => {
 
     return result(res, httpstatus.CREATED, true, 'User created successfully.', { user: newUser.rows[0], token });
   } catch (error) {
-    next(error)
+    
+    next(error);
     logger.error(error.message);
   }
 };
