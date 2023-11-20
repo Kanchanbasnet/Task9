@@ -4,6 +4,8 @@
  *      name: Users
  *      description: Operations regarding Users.
  */
+
+
 /**
  * @swagger
  * /api/users:
@@ -21,7 +23,7 @@
  *         name: limit
  *         schema:
  *           type: integer
- *         description: Number of items per page
+ *         description: Number of items per page.
  *     responses:
  *       200:
  *         description: Successful response with a list of users.
@@ -34,8 +36,6 @@
  *                 userQueryResult: [ ]
  *                 totalCount: 20
  *                 pageNumber: 1
- *                 nextPage: 2
- *                 previousPage: null
  *       404:
  *         description: Users not found.
  *         content:
@@ -149,62 +149,67 @@
  *               data: null
  */
 
+
 /**
  * @swagger
+ * security: 
+ *   - BearerAuth: []
  * /api/users/{id}:
  *   get:
- *     summary: Get a user by ID (Authorization required)
- *     description: Retrieve a user with the provided ID. Requires a valid Bearer token in the headers.
- *     tags: 
- *       - Users
+ *     summary: Retrieve the user by ID.
+ *     description: Retrieve the user by ID and authorization token.
+ *     tags: [Users]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
  *         schema:
  *           type: string
- *         description: The ID of the user.
- *       - in: header
- *         name: Authorization
- *         required: true
- *         schema:
- *           type: string
- *         description: Bearer token for authorization in the format "Bearer {token}".
- *         example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+ *         description: The Id of the user to retrieve.
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
- *         description: Successful response with the retrieved user.
+ *         description: Successful response with the user details
  *         content:
  *           application/json:
  *             example:
  *               success: true
- *               message: User with the ID retrieved successfully.
+ *               message: User with the id retrieved.
  *               data:
  *                 id: "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6"
- *                 name: John Doe
- *                 email: john.doe@example.com
- *                 username: john_doe
- *                 address: 123 Main St
+ *                 name: Name
+ *                 email: email@email.com
+ *                 username: username
+ *                 address: address
  *       401:
- *         description: Unauthorized response when the provided token is invalid or not found.
+ *         description: Unauthorized- Invalid Token or missing.
  *         content:
  *           application/json:
  *             example:
  *               success: false
- *               message: Token is invalid.
- *               data: null
- *       404:
- *         description: Not Found response when a user with the provided ID is not found.
+ *               message: Unauthorized- Invalid Token or missing.
+ *       500:
+ *         description: Internal Server Error
  *         content:
  *           application/json:
  *             example:
  *               success: false
- *               message: User with the ID not found.
- *               data: null
+ *               message: Internal Server Error.
+ * components:
+ *   securitySchemes:
+ *     BearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT   
  */
+
+
 
 /**
  * @swagger
+ * security: 
+ *     - BearerAuth: []
  * /api/users/{id}:
  *   put:
  *     summary: Update a user by ID
@@ -217,6 +222,8 @@
  *         schema:
  *           type: string
  *         description: The ID of the user to update.
+ *     security:
+ *       - BearerAuth: [] 
  *     requestBody:
  *       required: true
  *       content:
@@ -268,10 +275,19 @@
  *               success: false
  *               message: Internal Server Error.
  *               data: null
+ * 
+ * components:
+ *      securitySchemes:
+ *          BearerAuth:
+ *            type: http
+ *            scheme: bearer
+ *            bearerFormat: JWT
  */
 
 /**
  * @swagger
+ * security:
+ *     - BearerAuth: []
  * /api/users/{id}:
  *   delete:
  *     summary: Delete a user by ID
@@ -284,6 +300,8 @@
  *         schema:
  *           type: string
  *         description: The ID of the user to delete.
+ *     security:
+ *       - BearerAuth: []
  *     responses:
  *       200:
  *         description: Successful response indicating the user was deleted.
@@ -309,12 +327,11 @@
  *               success: false
  *               message: Internal Server Error.
  *               data: null
+ * components:
+ *     BearerAuth:
+ *      type: http
+ *      scheme: bearer
+ *      bearerFormat: JWT
  */
 
-
   
-  
-  
-
-  
-
